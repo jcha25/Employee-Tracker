@@ -49,7 +49,7 @@ const startingQuestions = () => {
             addEmployee()
         }
         if (res.startingQuestions === "View All Roles") {
-
+            viewAllRoles()
         }
         if (res.startingQuestions === "Add Role") {
 
@@ -66,6 +66,7 @@ const startingQuestions = () => {
     })
 }
 
+//  EMPLOYEE FUNCTIONS
 const viewAllEmployees = () => {
     db.query("SELECT * FROM employees", function (err, res) {
         if (err) throw err;
@@ -85,4 +86,13 @@ const addEmployee = () => {
             console.log(`Employee added to the database`);
             startingQuestions()
         })
+}
+
+// ROLES FUNCTIONS
+const viewAllRoles = () => {
+    db.query("SELECT * FROM roles", function (err, res) {
+        if (err) throw err;
+        console.table(res)
+        startingQuestions()
+    })
 }
