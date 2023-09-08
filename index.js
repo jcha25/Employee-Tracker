@@ -153,6 +153,7 @@ const addDepartment = () => {
     })
 }
 
+// UPDATE EMPLOYEE ROLE
 const updateEmployeeRole = () => {
     db.query(`SELECT * FROM employees`, (err, data) => {
         if (err) throw err;
