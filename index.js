@@ -20,7 +20,7 @@ const questions = [
 const startingQuestions = () => {
     inquirer.prompt(questions).then((res) => {
         if(res.startingQuestions === "View All Employees") {
-
+            viewAllEmployees()
         }
         if(res.startingQuestions === "Add Employee") {
             
@@ -40,5 +40,13 @@ const startingQuestions = () => {
         if(res.startingQuestions === "Update an Employees Role") {
             
         }
+    })
+}
+
+const viewAllEmployees = () => {
+    db.query("SELECT * FROM employees", function(err, res) {
+        if (err) throw err;
+        console.table(res)
+        startingQuestions()
     })
 }
