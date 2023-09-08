@@ -57,6 +57,14 @@ const roleQuestions = [
     },
 ]
 
+const departmentQuestions = [
+    {
+        type: 'input',
+        name: 'departmentName',
+        message: 'What is the name of the department?'
+    }
+]
+
 const startingQuestions = () => {
     inquirer.prompt(mainQuestions).then((res) => {
         if (res.startingQuestions === "View All Employees") {
@@ -75,7 +83,7 @@ const startingQuestions = () => {
             viewAllDepartments()
         }
         if (res.startingQuestions === "Add Department") {
-
+            addDepartment()
         }
         if (res.startingQuestions === "Update an Employees Role") {
 
@@ -114,7 +122,7 @@ const viewAllRoles = () => {
     })
 }
 
-function addRole() {
+const addRole = () => {
     inquirer.prompt(roleQuestions).then(res => {
         db.query(`INSERT INTO roles SET ?`, {
             title: res.roleName,
@@ -131,6 +139,16 @@ const viewAllDepartments = () => {
     db.query("SELECT * FROM departments", function (err, res) {
         if (err) throw err;
         console.table(res)
+        startingQuestions()
+    })
+}
+
+const addDepartment = () => {
+    inquirer.prompt(departmentQuestions).then(res => {
+        db.query(`INSERT INTO department SET ?`, {
+            department_name: res.departmentName
+        })
+        console.log(`Department added to the database`);
         startingQuestions()
     })
 }
