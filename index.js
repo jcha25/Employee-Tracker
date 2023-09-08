@@ -1,5 +1,4 @@
 const inquirer = require('inquirer');
-const mysql = require('mysql2');
 const db = require("./config/connection")
 
 db.connect(function (err) {
@@ -73,7 +72,7 @@ const startingQuestions = () => {
             addRole()
         }
         if (res.startingQuestions === "View All Departments") {
-
+            viewAllDepartments()
         }
         if (res.startingQuestions === "Add Department") {
 
@@ -123,6 +122,15 @@ function addRole() {
             department_id: res.roleDepartment
         })
         console.log(`Role added to the database`);
+        startingQuestions()
+    })
+}
+
+// DEPARTMENT FUNCTIONS
+const viewAllDepartments = () => {
+    db.query("SELECT * FROM departments", function (err, res) {
+        if (err) throw err;
+        console.table(res)
         startingQuestions()
     })
 }
