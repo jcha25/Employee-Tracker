@@ -40,6 +40,24 @@ const employeeQuestions = [
     },
 ]
 
+const roleQuestions = [
+    {
+        type: 'input',
+        name: 'roleName',
+        message: 'What is the name of the role?'
+    },
+    {
+        type: 'input',
+        name: 'roleSalary',
+        message: 'What is the salary of the role?'
+    },
+    {
+        type: 'input',
+        name: 'roleDepartment',
+        message: 'Which department does the role belong to?'
+    },
+]
+
 const startingQuestions = () => {
     inquirer.prompt(mainQuestions).then((res) => {
         if (res.startingQuestions === "View All Employees") {
@@ -52,7 +70,7 @@ const startingQuestions = () => {
             viewAllRoles()
         }
         if (res.startingQuestions === "Add Role") {
-
+            addRole()
         }
         if (res.startingQuestions === "View All Departments") {
 
@@ -77,15 +95,15 @@ const viewAllEmployees = () => {
 
 const addEmployee = () => {
     inquirer.prompt(employeeQuestions).then(res => {
-            db.query(`INSERT INTO employee SET ?`, {
-                first_name: res.firstName,
-                last_name: res.lastName,
-                role_id: res.employeeRole,
-                manager_id: res.employeeManager
-            })
-            console.log(`Employee added to the database`);
-            startingQuestions()
+        db.query(`INSERT INTO employee SET ?`, {
+            first_name: res.firstName,
+            last_name: res.lastName,
+            role_id: res.employeeRole,
+            manager_id: res.employeeManager
         })
+        console.log(`Employee added to the database`);
+        startingQuestions()
+    })
 }
 
 // ROLES FUNCTIONS
@@ -93,6 +111,18 @@ const viewAllRoles = () => {
     db.query("SELECT * FROM roles", function (err, res) {
         if (err) throw err;
         console.table(res)
+        startingQuestions()
+    })
+}
+
+function addRole() {
+    inquirer.prompt(roleQuestions).then(res => {
+        db.query(`INSERT INTO roles SET ?`, {
+            title: res.roleName,
+            salary: res.roleSalary,
+            department_id: res.roleDepartment
+        })
+        console.log(`Role added to the database`);
         startingQuestions()
     })
 }
